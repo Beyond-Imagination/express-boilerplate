@@ -1,7 +1,8 @@
 
-# Express Template
+# Express Boilerplate
 
-Express + Typescript 예시 프로젝트입니다.
+Beyond-imagination 백엔드용 express-boilerplate 입니다.
+https://github.com/Beyond-Imagination/express-boilerplate/ 을 미러링하여 만들었습니다.
 
 ## 사용법
 ```
