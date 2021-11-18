@@ -22,7 +22,7 @@ if (!SESSION_KEY) {
 }
 
 class App {
-  private app : express.Application;
+  private app : express.Application
   constructor () {
     this.app = express()
   }
