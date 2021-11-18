@@ -1,7 +1,7 @@
 import passport from 'passport'
-import LocalStrategy from '@/strategies/passport/local.passport'
-import JwtStrategy from '@/strategies/passport/jwt.passport'
-import { Model } from '@/types/model.type'
+import LocalStrategy from '@/strategies/passport/local'
+import JwtStrategy from '@/strategies/passport/jwt'
+import { Model } from '@/types/model'
 
 passport.use(LocalStrategy)
 passport.use(JwtStrategy)

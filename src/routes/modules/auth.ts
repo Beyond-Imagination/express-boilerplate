@@ -3,15 +3,15 @@ import { body, validationResult } from 'express-validator'
 import passport from 'passport'
 import jwt from 'jsonwebtoken'
 
-import wrapAsync from '@/middlewares/async.middleware'
+import wrapAsync from '@/middlewares/async'
 import User from '@/models/user'
 import { success } from '@/helpers/response'
-import { Model } from '@/types/model.type'
-import { AlreadyUsingUserIdError, NoUserError } from '@/errors/auth.error'
-import { ReqParamsNotMatchError } from '@/errors/req.error'
+import { Model } from '@/types/model'
+import { AlreadyUsingUserIdError, NoUserError } from '@/errors/auth'
+import { ReqParamsNotMatchError } from '@/errors/req'
 import { generatePassword } from '@/helpers/password'
 import { reverseProjection } from '@/helpers/object'
-import { authenticateWithJWT, authenticateWithLocal } from '@/middlewares/auth.middleware'
+import { authenticateWithJWT, authenticateWithLocal } from '@/middlewares/auth'
 
 const router = Router()
 
@@ -34,14 +34,14 @@ router.get('/check/:userId', wrapAsync(
 router.get('/user',
   [authenticateWithJWT],
   wrapAsync(
-  async (req, res) => {
-    const user = req.user
-    if (!user) {
-      throw new NoUserError()
+    async (req, res) => {
+      const user = req.user
+      if (!user) {
+        throw new NoUserError()
+      }
+      await success(res, reverseProjection(user, ['password']))
     }
-    await success(res, reverseProjection(user, ['password']))
-  }
-))
+  ))
 
 router.post('/login', [authenticateWithLocal])
 

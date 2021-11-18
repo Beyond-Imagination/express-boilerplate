@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express'
-import HttpError from '@/errors/http.error'
-import { API } from '@/types/api.type'
+import Http from '@/errors/http'
+import { API } from '@/types/api'
 import { failed } from '@/helpers/response'
 
 export const errorHandler = (
-  error: HttpError,
+  error: Http,
   _req: Request,
   res: Response,
   _next: NextFunction

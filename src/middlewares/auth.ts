@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import passport from 'passport'
-import { NotAuthenticated, NoUserError } from '@/errors/auth.error'
+import { NotAuthenticated, NoUserError } from '@/errors/auth'
 import jwt from 'jsonwebtoken'
 import { projection } from '@/helpers/object'
 import { success } from '@/helpers/response'

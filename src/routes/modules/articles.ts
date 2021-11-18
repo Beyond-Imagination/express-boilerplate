@@ -1,9 +1,9 @@
 import { Router } from 'express'
 import { param, validationResult } from 'express-validator'
 
-import wrapAsync from '@/middlewares/async.middleware'
+import wrapAsync from '@/middlewares/async'
 import { success } from '@/helpers/response'
-import { ReqParamsNotMatchError } from '@/errors/req.error'
+import { ReqParamsNotMatchError } from '@/errors/req'
 
 const router = Router()
 
@@ -16,21 +16,21 @@ router.get('/', wrapAsync(
 router.get('/:id',
   param('id').exists(),
   wrapAsync(
-  async (req, res) => {
-    const errors = validationResult(req)
-    if (!errors.isEmpty()) {
-      throw new ReqParamsNotMatchError(errors)
+    async (req, res) => {
+      const errors = validationResult(req)
+      if (!errors.isEmpty()) {
+        throw new ReqParamsNotMatchError(errors)
+      }
+    
+      const { id } = req.params
+    
+      success(res, {
+        title: 'Hello World!',
+        text: 'Hello World',
+        id
+      })
     }
-    
-    const { id } = req.params
-    
-    success(res, {
-      title: 'Hello World!',
-      text: 'Hello World',
-      id
-    })
-  }
-))
+  ))
 
 export default {
   router,

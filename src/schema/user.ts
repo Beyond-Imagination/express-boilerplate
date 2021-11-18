@@ -1,5 +1,5 @@
 import { Schema } from 'dynamoose'
-import { ImageInfoSchema } from '@/schema/image.schema'
+import { ImageInfoSchema } from '@/schema/image'
 
 export const UserSchema = new Schema({
   userId: {

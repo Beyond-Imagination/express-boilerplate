@@ -6,13 +6,13 @@ import passport from 'passport'
 import session from 'express-session'
 
 import routes from '@/routes'
-import { errorHandler } from '@/middlewares/error.middleware'
+import { errorHandler } from '@/middlewares/error'
 
-import '@/plugins/passport.plugin'
-import '@/plugins/aws.plugin'
+import '@/plugins/passport'
+import '@/plugins/aws'
 
-const port = process.env.APP_PORT || 3005;
-const host = process.env.APP_HOST || 'localhost';
+const port = process.env.APP_PORT || 3005
+const host = process.env.APP_HOST || 'localhost'
 
 const SESSION_KEY = process.env.SESSION_KEY || 'HELLO_WORLD'
 
@@ -24,7 +24,7 @@ if (!SESSION_KEY) {
 class App {
   private app : express.Application;
   constructor () {
-    this.app = express();
+    this.app = express()
   }
 
   public init (): void {
@@ -48,14 +48,14 @@ class App {
   }
   
   public start (): void {
-    this.app.listen(port, () => console.log(`Application running on ${host}:${port}`));
+    this.app.listen(port, () => console.log(`Application running on ${host}:${port}`))
   }
 }
 
 (() => {
-  const app = new App();
-  app.init();
-  app.start();
+  const app = new App()
+  app.init()
+  app.start()
 })()
 
 export default App

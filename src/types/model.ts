@@ -1,4 +1,4 @@
-import { Media } from './media.type'
+import { Media } from './media'
 
 export declare namespace Model {
   interface User {

@@ -1,5 +1,5 @@
 import { ExtractJwt, Strategy } from 'passport-jwt'
-import { Model } from '@/types/model.type'
+import { Model } from '@/types/model'
 import User from '@/models/user'
 
 const JWT_SECRET = process.env.JWT_SECRET || 'HELLO_WORLD'

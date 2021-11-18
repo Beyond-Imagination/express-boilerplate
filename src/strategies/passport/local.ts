@@ -1,7 +1,7 @@
 import { Strategy } from 'passport-local'
 
 import { comparePassword } from '@/helpers/password'
-import { Model } from '@/types/model.type'
+import { Model } from '@/types/model'
 
 import User from '@/models/user'
 
