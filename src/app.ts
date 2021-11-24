@@ -4,6 +4,7 @@ import express from 'express'
 import morgan from 'morgan'
 import passport from 'passport'
 import session from 'express-session'
+import '@/loaders/env' // 환경 변수를 사용하는 곳보다 상단에 위치해야 합니다.
 
 import routes from '@/routes'
 import { errorHandler } from '@/middlewares/error'
@@ -11,12 +12,11 @@ import { errorHandler } from '@/middlewares/error'
 import '@/plugins/passport'
 import '@/plugins/aws'
 
-const port = process.env.APP_PORT || 3005
-const host = process.env.APP_HOST || 'localhost'
+import {env} from '@/env'
 
-const SESSION_KEY = process.env.SESSION_KEY || 'HELLO_WORLD'
+const { port, host, sessionKey } = env
 
-if (!SESSION_KEY) {
+if (!sessionKey) {
   console.error('No session secret string. Set SESSION_KEY environment variable.')
   process.exit(1)
 }
@@ -32,7 +32,7 @@ class App {
     app.use(express.json())
     app.use(morgan('dev'))
     app.use(session({
-      secret: SESSION_KEY,
+      secret: sessionKey,
       resave: false,
       saveUninitialized: false
     }))
@@ -46,7 +46,7 @@ class App {
   
     app.use(errorHandler)
   }
-  
+
   public start (): void {
     this.app.listen(port, () => console.log(`Application running on ${host}:${port}`))
   }

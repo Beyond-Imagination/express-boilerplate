@@ -4,8 +4,9 @@ import { NotAuthenticated, NoUserError } from '@/errors/auth'
 import jwt from 'jsonwebtoken'
 import { projection } from '@/helpers/object'
 import { success } from '@/helpers/response'
+import {env} from '@/env'
 
-const JWT_SECRET = process.env.JWT_SECRET || 'HELLO_WORLD'
+const {jwtSecret} = env
 
 export function isAuthenticated (req: Request, _res: Response, next: NextFunction) {
   if (req.isAuthenticated()) {
@@ -46,7 +47,7 @@ export function authenticateWithLocal (req: Request, res: Response, next: NextFu
 
       const token = jwt.sign(
         projection(user, ['userId', 'auth']),
-        JWT_SECRET
+        jwtSecret
       )
 
       return success(res, token)
