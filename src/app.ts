@@ -1,61 +1,18 @@
 import 'module-alias/register'
+import '@/loaders/env' // 이 파일 내에서 환경 변수를 사용하는 곳보다 상단에 위치해야 합니다.
 
-import express from 'express'
-import morgan from 'morgan'
-import passport from 'passport'
-import session from 'express-session'
-import '@/loaders/env' // 환경 변수를 사용하는 곳보다 상단에 위치해야 합니다.
-
-import routes from '@/routes'
-import { errorHandler } from '@/middlewares/error'
-
-import '@/plugins/passport'
-import '@/plugins/aws'
-
+import {awsLoader, expressLoader, mongooseLoader, passportLoader} from '@/loaders'
 import {env} from '@/env'
 
-const { port, host, sessionKey } = env
+const { port, host } = env;
 
-if (!sessionKey) {
-  console.error('No session secret string. Set SESSION_KEY environment variable.')
-  process.exit(1)
-}
+(async () => {
+  await mongooseLoader()
+  passportLoader()
+  awsLoader()
+  const app = expressLoader()
 
-class App {
-  private app : express.Application
-  constructor () {
-    this.app = express()
-  }
-
-  public init (): void {
-    const { app } = this
-    app.use(express.json())
-    app.use(morgan('dev'))
-    app.use(session({
-      secret: sessionKey,
-      resave: false,
-      saveUninitialized: false
-    }))
-  
-    //  Passport
-    app.use(passport.initialize())
-    app.use(passport.session())
-
-    // add routes
-    routes.forEach((route) => app.use(`/api/${route.name}`, route.router))
-  
-    app.use(errorHandler)
-  }
-
-  public start (): void {
-    this.app.listen(port, () => console.log(`Application running on ${host}:${port}`))
-  }
-}
-
-(() => {
-  const app = new App()
-  app.init()
-  app.start()
+  app.listen(port, () => console.log(`Application running on ${host}:${port}`))
 })()
-
-export default App
+  .then(() => console.info('Application load success'))
+  .catch(e => console.error('Application is crashed\n' + e))
