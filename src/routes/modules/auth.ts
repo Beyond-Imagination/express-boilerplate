@@ -4,60 +4,19 @@ import passport from 'passport'
 import jwt from 'jsonwebtoken'
 
 import wrapAsync from '@/middlewares/async'
-import User from '@/models/user'
+import { User, AuthType } from '@/models/user'
 import { success } from '@/helpers/response'
 import { Model } from '@/types/model'
 import { AlreadyUsingUserIdError, NoUserError } from '@/errors/auth'
 import { ReqParamsNotMatchError } from '@/errors/req'
 import { generatePassword } from '@/helpers/password'
 import { reverseProjection } from '@/helpers/object'
-import { authenticateWithJWT, authenticateWithLocal } from '@/middlewares/auth'
 
 const router = Router()
 
-router.get('/check/:userId', wrapAsync(
-  async (req, res) => {
-    const { userId } = req.params
-
-    const userInfo = await User.get(userId, {
-      attributes: ['userId', 'completed']
-    })
-
-    if (!userInfo) {
-      throw new NoUserError()
-    }
-
-    success(res, userInfo)
-  })
-)
-
-router.get('/user',
-  [authenticateWithJWT],
-  wrapAsync(
-    async (req, res) => {
-      const user = req.user
-      if (!user) {
-        throw new NoUserError()
-      }
-      await success(res, reverseProjection(user, ['password']))
-    }
-  ))
-
-router.post('/login', [authenticateWithLocal])
-
-router.post('/logout',
-  wrapAsync(async (req, res) => {
-    if (req.user) {
-      req.logout()
-    }
-    await success(res, null)
-  })
-)
-
-router.post('/signup', [
-  body('userId').exists(),
+router.post('/signup/local', [
+  body('email').exists(),
   body('password').exists(),
-  body('userName').exists()
 ], wrapAsync(
   async (req, res) => {
     const errors = validationResult(req)
@@ -65,29 +24,32 @@ router.post('/signup', [
       throw new ReqParamsNotMatchError(errors)
     }
 
-    const { userId, password, userName } = req.body
+    const { email, password, nickname } = req.body
     const hashedPassword = generatePassword(password)
 
-    const useInfo = await User.get(userId)
-
-    if (useInfo) {
-      throw new AlreadyUsingUserIdError(userId)
+    let existUser = await User.findOne({email: email}).exec();
+    if (existUser) {
+      throw new AlreadyUsingUserIdError(email)
     }
 
-    const item: Model.User = {
-      userId,
-      userName,
-      rules: ['USER'],
-      auth: 'USER',
+    let user = {
+      email: email,
       password: hashedPassword,
-      completed: false
+      nickname: nickname,
+      type: AuthType.Local,
     }
+    await new User(user).save()
 
-    const user = new User(item)
-    const result = await user.save()
-
-    success(res, reverseProjection(result, ['password']))
+    success(res, reverseProjection(user, ['password']))
   }
+))
+
+router.post('/signin/local', 
+  passport.authenticate('local'),
+  wrapAsync(
+    async (req, res) => {
+      success(res, reverseProjection(req.user, ['password']))
+    }
 ))
 
 export default {
