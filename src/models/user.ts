@@ -1,5 +1,12 @@
 import { Schema, model } from 'mongoose'
 
+export enum AuthType {
+  Local = 1,
+  Kakao,
+  Google,
+  Apple,
+}
+
 export interface IUser {
   email: string
   password: string
