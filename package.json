@@ -62,8 +62,6 @@
     "typescript": "^4.3.5"
   },
   "_moduleAliases": {
-    "@/*": "build/",
-    "@types/*": "types/",
-    "~/*": "build/"
+    "@": "build"
   }
 }
