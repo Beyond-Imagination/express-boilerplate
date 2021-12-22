@@ -1,8 +1,8 @@
 import { Router } from 'express'
+import asyncify from 'express-asyncify'
 import { body, validationResult } from 'express-validator'
 import passport from 'passport'
 
-import wrapAsync from '@/middlewares/async'
 import { User, AuthType } from '@/models/user'
 import { success } from '@/helpers/response'
 import { AlreadyUsingUserIdError, NoUserError } from '@/errors/auth'
@@ -10,12 +10,13 @@ import { ReqParamsNotMatchError } from '@/errors/req'
 import { generatePassword } from '@/helpers/password'
 import { reverseProjection } from '@/helpers/object'
 
-const router = Router()
+const router = asyncify(Router())
 
-router.post('/signup/local', [
-  body('email').exists(),
-  body('password').exists(),
-], wrapAsync(
+router.post('/signup/local', 
+  [
+    body('email').exists(),
+    body('password').exists(),
+  ],
   async (req, res) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
@@ -40,15 +41,14 @@ router.post('/signup/local', [
 
     success(res, reverseProjection(user, ['password']))
   }
-))
+)
 
 router.post('/signin/local', 
   passport.authenticate('local'),
-  wrapAsync(
-    async (req, res) => {
-      success(res, reverseProjection(req.user, ['password']))
-    }
-))
+  async (req, res) => {
+    success(res, reverseProjection(req.user, ['password']))
+  }
+)
 
 export default {
   name: 'auth',
