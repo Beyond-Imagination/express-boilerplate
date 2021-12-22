@@ -1,10 +1,6 @@
-import articles from '@/routes/modules/articles'
-import auth from '@/routes/modules/auth'
+import auth from '@/routes/auth'
 
-import { Server } from '@/types/server'
-
-const routes: Server.IRoute[] = [
-  articles,
+const routes = [
   auth
 ]
 

@@ -1,12 +1,10 @@
 import { Router } from 'express'
 import { body, validationResult } from 'express-validator'
 import passport from 'passport'
-import jwt from 'jsonwebtoken'
 
 import wrapAsync from '@/middlewares/async'
 import { User, AuthType } from '@/models/user'
 import { success } from '@/helpers/response'
-import { Model } from '@/types/model'
 import { AlreadyUsingUserIdError, NoUserError } from '@/errors/auth'
 import { ReqParamsNotMatchError } from '@/errors/req'
 import { generatePassword } from '@/helpers/password'
