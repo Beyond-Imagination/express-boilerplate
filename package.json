@@ -5,8 +5,8 @@
   "main": "src/app.js",
   "scripts": {
     "build": "tsc",
-    "serve": "nodemon --exec ts-node -r tsconfig-paths/register src/app.ts",
-    "dev": "nodemon --exec ts-node -r tsconfig-paths/register src/app.ts",
+    "start": "node build/app.js",
+    "dev": "nodemon --exec \"yarn build && yarn start\" --watch src --ext ts",
     "test": "jest --detectOpenHandles --forceExit"
   },
   "dependencies": {
