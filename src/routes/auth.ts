@@ -7,8 +7,6 @@ import { User, AuthType } from '@/models/user'
 import { success } from '@/helpers/response'
 import { AlreadyUsingUserIdError, NoUserError } from '@/errors/auth'
 import { ReqParamsNotMatchError } from '@/errors/req'
-import { generatePassword } from '@/helpers/password'
-import { reverseProjection } from '@/helpers/object'
 
 const router = asyncify(Router())
 
@@ -24,29 +22,28 @@ router.post('/signup/local',
     }
 
     const { email, password, nickname } = req.body
-    const hashedPassword = generatePassword(password)
 
-    let existUser = await User.findOne({email: email}).exec();
+    let existUser = await User.findByEmail(email);
     if (existUser) {
       throw new AlreadyUsingUserIdError(email)
     }
 
     let user = {
       email: email,
-      password: hashedPassword,
+      password: password,
       nickname: nickname,
       type: AuthType.Local,
     }
-    await new User(user).save()
+    user = await new User(user).save()
 
-    success(res, reverseProjection(user, ['password']))
+    success(res, user)
   }
 )
 
 router.post('/signin/local', 
   passport.authenticate('local'),
   async (req, res) => {
-    success(res, reverseProjection(req.user, ['password']))
+    success(res, req.user)
   }
 )
 
