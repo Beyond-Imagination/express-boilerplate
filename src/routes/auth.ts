@@ -1,26 +1,27 @@
 import { Router } from 'express'
 import asyncify from 'express-asyncify'
-import { body, validationResult } from 'express-validator'
 import passport from 'passport'
 
+import { validation } from '@/middlewares'
 import { User, AuthType } from '@/models/user'
 import { success } from '@/helpers/response'
 import { AlreadyUsingUserIdError, NoUserError } from '@/errors/auth'
-import { ReqParamsNotMatchError } from '@/errors/req'
 
 const router = asyncify(Router())
 
 router.post('/signup/local', 
-  [
-    body('email').exists(),
-    body('password').exists(),
-  ],
-  async (req, res) => {
-    const errors = validationResult(req)
-    if (!errors.isEmpty()) {
-      throw new ReqParamsNotMatchError(errors)
+  validation({
+    email: {
+      isEmail: true,
+    },
+    password: {
+      isString: true,
+    },
+    nickname: {
+      isString: true,
     }
-
+  }),
+  async (req, res) => {
     const { email, password, nickname } = req.body
 
     let existUser = await User.findByEmail(email);
@@ -41,6 +42,14 @@ router.post('/signup/local',
 )
 
 router.post('/signin/local', 
+  validation({
+    email: { 
+      isEmail: true,
+    },
+    password: { 
+      isString: true,
+    },
+  }),
   passport.authenticate('local'),
   async (req, res) => {
     success(res, req.user)
