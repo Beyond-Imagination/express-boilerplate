@@ -1,21 +1,16 @@
 import { Request, Response, NextFunction } from 'express'
-import Http from '@/errors/http'
 import { API } from '@/types/api'
-import { failed } from '@/helpers/response'
+import { InternalServerError } from '@/errors'
 
 export const errorHandler = (
-  error: Http,
+  error: API.APIError,
   _req: Request,
   res: Response,
   _next: NextFunction
 ) => {
-  const status = error.statusCode || error.status || 500
-  const item: API.Response = {
-    status,
-    message: error.message,
-    success: false,
-    result: null
+  if (error instanceof API.APIError === false) {
+    console.error("unexpected error occured.", error);
+    error = new InternalServerError()
   }
-  
-  failed(res, item)
+  res.status(error.status).json(error)
 }
