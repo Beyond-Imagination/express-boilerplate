@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import { API } from '@/types/api'
-import { InternalServerError } from '@/errors'
+import { ErrorJSONFormat, InternalServerError } from '@/errors'
 
 export const errorHandler = (
   error: API.APIError,
@@ -8,7 +8,9 @@ export const errorHandler = (
   res: Response,
   _next: NextFunction
 ) => {
-  if (error instanceof API.APIError === false) {
+  if (ErrorJSONFormat.isBodyParserError(error)) {
+    error = new ErrorJSONFormat()
+  } else if (error instanceof API.APIError === false) {
     console.error("unexpected error occured.", error);
     error = new InternalServerError()
   }
