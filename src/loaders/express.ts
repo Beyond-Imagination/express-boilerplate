@@ -6,6 +6,7 @@ import routes from '@/routes'
 import {errorHandler} from '@/middlewares'
 import {morganLogger} from '@/libs'
 import {env} from '@/env'
+import {snakecaseResponse} from '@/libs/interceptor'
 
 const {sessionKey} = env
 
@@ -26,6 +27,7 @@ export const expressLoader = () => {
   // Morgan
   app.use(morganLogger())
 
+  app.use(snakecaseResponse)
   // add routes
   routes.forEach((route) => app.use(`/api/${route.name}`, route.router))
 
