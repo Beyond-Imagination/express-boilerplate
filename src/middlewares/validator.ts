@@ -1,4 +1,5 @@
 import { body, checkSchema, validationResult } from 'express-validator'
+import { BadRequest } from '@/errors'
 
 export const validation = function (schema) {
   return [
@@ -8,10 +9,9 @@ export const validation = function (schema) {
 }
 
 function checkValidationResult(req, res, next) {
-  // TODO Error format 적용
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
-    throw errors
+    throw new BadRequest(errors.array())
   } else {
     next()
   }
