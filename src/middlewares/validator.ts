@@ -7,7 +7,7 @@ export const validation = function (schema) {
   return [
     checkSchema(schema),
     checkValidationResult,
-    camelcaseRequest,
+    convertBodyToCamelCase,
   ]
 }
 
@@ -20,7 +20,7 @@ function checkValidationResult(req, res, next) {
   }
 }
 
-function camelcaseRequest(req, res, next) {
+function convertBodyToCamelCase(req, res, next) {
   req.body = camelcaseKeys(req.body);
   next()
 }
