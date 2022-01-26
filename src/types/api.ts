@@ -1,11 +1,4 @@
 export namespace API {
-  export interface Response {
-    message: string | null
-    success: boolean
-    status: number
-    result: any
-  }
-
   export class APIError extends Error {
     status: number
     code: number

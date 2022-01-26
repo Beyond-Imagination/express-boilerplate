@@ -4,7 +4,6 @@ import passport from 'passport'
 
 import { validation } from '@/middlewares'
 import { User, AuthType } from '@/models/user'
-import { success } from '@/helpers/response'
 import { AlreadyUsingUserIdError, NoUserError } from '@/errors/auth'
 
 const router = asyncify(Router())
@@ -37,7 +36,7 @@ router.post('/signup/local',
     }
     user = await new User(user).save()
 
-    success(res, user)
+    res.json(user)
   }
 )
 
@@ -52,7 +51,7 @@ router.post('/signin/local',
   }),
   passport.authenticate('local'),
   async (req, res) => {
-    success(res, req.user)
+    res.json(req.user)
   }
 )
 
