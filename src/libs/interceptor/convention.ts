@@ -7,7 +7,20 @@ export const snakecaseResponse = interceptor(function(req, res){
       return true;
     },
     intercept: function(body, send) {
-      send(JSON.stringify(snakecaseKeys(JSON.parse(body))));
+      if (isJSONString(body)) {
+        body = JSON.stringify(snakecaseKeys(JSON.parse(body)))
+      }
+      send(body);
     }
   };
 })
+
+export function isJSONString(jsonString:string) : boolean {
+  let obj = null;
+  try {
+    obj = JSON.parse(jsonString);
+  } catch (e) {
+    return false
+  }
+  return obj !== null && typeof obj === "object"
+}
