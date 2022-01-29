@@ -4,7 +4,7 @@ import passport from 'passport'
 
 import { validation } from '@/middlewares'
 import { User, AuthType } from '@/models/user'
-import { AlreadyUsingUserIdError, NoUserError } from '@/errors/auth'
+import { ErrorExistUserEmail } from '@/errors'
 
 const router = asyncify(Router())
 
@@ -25,7 +25,7 @@ router.post('/signup/local',
 
     let existUser = await User.findByEmail(email);
     if (existUser) {
-      throw new AlreadyUsingUserIdError(email)
+      throw new ErrorExistUserEmail()
     }
 
     let user = {
