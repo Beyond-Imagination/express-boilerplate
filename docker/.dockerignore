@@ -1,0 +1,35 @@
+# git and github
+.gitignore
+/.git
+/.github
+
+# IDE
+/.idea
+/.vscode
+
+# docs
+README.md
+/docs
+
+# root node_modules
+node_modules
+
+# root npm script
+/scripts
+
+# docker volumn
+/docker/volumes
+
+# api
+/node_modules
+/.log
+/dist
+
+# bundling output
+/build
+
+# circle ci
+.circleci
+
+# githug hook
+.github

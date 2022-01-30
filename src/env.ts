@@ -9,6 +9,7 @@ export const env = {
   // APPLICATION
   port: toNumber(getOsEnv('APP_PORT', '3005')),
   host: getOsEnv('APP_HOST', 'localhost'),
+  appDir: getOsEnv('APP_DIR', 'express-boilerplate'),
   allowedOrigins: getOsEnvArray('ALLOWED_ORIGINS'),
 
   // EXPRESS SESSION
