@@ -13,5 +13,8 @@
 		"ts-jest": {
 			"diagnostics": true
 		}
+	},
+	"moduleNameMapper": {
+		"^@/(.*)": "<rootDir>/src/$1"
 	}
 }
