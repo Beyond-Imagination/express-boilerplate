@@ -31,5 +31,5 @@ node_modules
 # circle ci
 .circleci
 
-# githug hook
+# github hook
 .github
