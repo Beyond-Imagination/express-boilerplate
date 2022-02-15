@@ -7,12 +7,14 @@ import {env} from '@/env'
 const { port, host } = env;
 
 (async () => {
-  await mongooseLoader()
-  passportLoader()
-  awsLoader()
-  const app = expressLoader()
-
-  app.listen(port, () => console.log(`Application running on ${host}:${port}`))
+  try {
+    await mongooseLoader()
+    passportLoader()
+    awsLoader()
+    const app = expressLoader()
+    
+    app.listen(port, () => console.log(`Application running on ${host}:${port}`))
+  } catch (error) {
+    console.error('Application is crashed\n' + error)
+  }
 })()
-  .then(() => console.info('Application load success'))
-  .catch(e => console.error('Application is crashed\n' + e))
