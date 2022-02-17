@@ -1,35 +1,39 @@
 # git and github
 .gitignore
-/.git
-/.github
+.git
+.github
 
 # IDE
-/.idea
-/.vscode
+.idea
+.vscode
 
 # docs
 README.md
-/docs
 
 # root node_modules
 node_modules
 
 # root npm script
-/scripts
+scripts
 
 # docker volumn
 /docker/volumes
 
-# api
-/node_modules
-/.log
-/dist
+# log
+.log
+**/*.log
 
 # bundling output
-/build
+build
 
-# circle ci
-.circleci
+# lint
+.eslintignore
+.eslintrc.json
+.prettierignore
+.prettierrc.json
 
-# github hook
-.github
+# test
+jest.config.json
+
+# env
+env
