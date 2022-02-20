@@ -17,7 +17,7 @@ node_modules
 scripts
 
 # docker volumn
-/docker/volumes
+docker/volumes
 
 # log
 .log
