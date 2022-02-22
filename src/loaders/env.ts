@@ -9,6 +9,6 @@ import {resolve} from 'path';
   const envFound = dotenv.config({ path })
 
   if (envFound.error) {
-    throw new Error('couldn\'t find .env file️')
+    console.error("couldn't find .env file")
   }
 })()
