@@ -41,8 +41,8 @@ export const expressLoader = () => {
 
   app.use(snakecaseResponse)
 
-  // Routes
-  routes.forEach((route) => app.use(`/api/${route.name}`, route.router))
+  // Routes  
+  routes.forEach((route) => app.use(`/api/${route.name}`, route.router))  
 
   // Error Handling
   app.use(errorHandler)
