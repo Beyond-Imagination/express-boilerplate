@@ -1,10 +1,10 @@
 import { Router } from 'express'
 import asyncify from 'express-asyncify'
-import passport from 'passport'
 
 import { validation } from '@/middlewares'
 import { User, AuthType } from '@/models/user'
 import { ErrorExistUserEmail } from '@/errors'
+import { auth } from '@/libs/passport'
 
 const router = asyncify(Router())
 
@@ -49,7 +49,7 @@ router.post('/signin/local',
       isString: true,
     },
   }),
-  passport.authenticate('local'),
+  auth.local,
   async (req, res) => {
     res.json(req.user)
   }
