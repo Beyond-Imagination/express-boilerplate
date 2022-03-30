@@ -2,9 +2,8 @@ import { Router } from 'express'
 import asyncify from 'express-asyncify'
 
 import { validation } from '@/middlewares'
-import { User, AuthType } from '@/models/user'
-import { ErrorExistUserEmail } from '@/errors'
 import { auth } from '@/libs/passport'
+import { postSignUpLocal, postSignInLocal } from '@/controllers/auth'
 
 const router = asyncify(Router())
 
@@ -20,24 +19,7 @@ router.post('/signup/local',
       isString: true,
     }
   }),
-  async (req, res) => {
-    const { email, password, nickname } = req.body
-
-    let existUser = await User.findByEmail(email);
-    if (existUser) {
-      throw new ErrorExistUserEmail()
-    }
-
-    let user = {
-      email: email,
-      password: password,
-      nickname: nickname,
-      type: AuthType.Local,
-    }
-    user = await new User(user).save()
-
-    res.json(user)
-  }
+  postSignUpLocal,
 )
 
 router.post('/signin/local', 
@@ -50,9 +32,7 @@ router.post('/signin/local',
     },
   }),
   auth.local,
-  async (req, res) => {
-    res.json(req.user)
-  }
+  postSignInLocal,
 )
 
 export default {
