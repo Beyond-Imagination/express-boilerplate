@@ -36,7 +36,7 @@ class Env {
     this.isTest = process.env.NODE_ENV === 'test',
     this.isDevelopment = process.env.NODE_ENV === 'development',
   
-    this.port = toNumber(getOsEnv('APP_PORT', '3005')),
+    this.port = toNumber(getOsEnv('PORT', '3005')),
     this.host = getOsEnv('APP_HOST', 'localhost'),
     this.allowedOrigins = getOsEnvArray('ALLOWED_ORIGINS'),
   
