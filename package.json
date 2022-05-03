@@ -70,5 +70,9 @@
   },
   "_moduleAliases": {
     "@": "build"
+  },
+  "apidoc": {
+    "title": "Custom apiDoc browser title",
+    "url" : "https://localhost:3005"
   }
 }
