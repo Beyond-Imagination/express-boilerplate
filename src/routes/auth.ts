@@ -7,7 +7,7 @@ import { postSignUpLocal, postSignInLocal } from '@/controllers/auth'
 
 const router = asyncify(Router())
 /**
- * @api {post} /signup/local Request Sign Up
+ * @api {post} /api/auth/signup/local Request Sign Up
  * @apiName sign up
  * @apiGroup Auth
  *
