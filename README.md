@@ -24,3 +24,12 @@ $ docker build -t express .
 # docker run -p $PUBLIC_PORT:$PRIVATE_PORT -d --name $CONTAINER_NAME $IMAGE_NAME
 $ docker run -p 3005:3005 -d --name express express
 ```
+
+
+## Api Docs
+```shell
+npm install apidoc -g
+
+apidoc -i src -o apidoc
+
+```
